@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './products.dart';
+import './products_builder.dart';
 import './products_control.dart';
 
 class ProductsManager extends StatefulWidget {
@@ -42,7 +42,7 @@ class _ProductsManagerState extends State<ProductsManager> {
       children: [
         ProductsControl(_addProduct),
         Expanded(
-          child: Products(_products, deleteProd: _deleteProduct),
+          child: ProductsBuilder(_products, deleteProd: _deleteProduct),
         ),
       ],
     );
