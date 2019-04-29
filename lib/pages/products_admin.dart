@@ -4,7 +4,11 @@ import './products.dart';
 import './product_create.dart';
 import './product_list.dart';
 
-class ManageProductsPage extends StatelessWidget {
+class ProductsAdminPage extends StatelessWidget {
+  ProductsAdminPage(this.addProd, this.deleteProd);
+  final Function addProd;
+  final Function deleteProd;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -15,10 +19,12 @@ class ManageProductsPage extends StatelessWidget {
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
-                child: Text("First Tab"),
+                icon: Icon(Icons.create),
+                child: Text("Create Product"),
               ),
               Tab(
-                child: Text("Second Tab"),
+                icon: Icon(Icons.list),
+                child: Text("All Products"),
               )
             ],
           ),
@@ -33,19 +39,18 @@ class ManageProductsPage extends StatelessWidget {
               ListTile(
                 title: Text("All Products"),
                 onTap: () {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (BuildContext context) {
-                    return ProductsPage();
-                  }));
+                  Navigator.pushReplacementNamed(context, "/");
                 },
               )
             ],
           ),
         ),
-        body: TabBarView(children: <Widget>[
-          ProductCreatePage(),
-          ProductListPage(),
-        ],),
+        body: TabBarView(
+          children: <Widget>[
+            ProductCreatePage(),
+            ProductListPage(),
+          ],
+        ),
       ),
     );
   }

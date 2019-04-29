@@ -6,6 +6,31 @@ class ProductPage extends StatelessWidget {
   final String title;
   final String imageURL;
 
+  _deleteDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Delete" + title + "?"),
+            content: Text("This action can not be undone."),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Go Back"),
+                onPressed: () {
+                  Navigator.pop(context);
+                }
+              ),
+              FlatButton(
+                  child: Text("Delete"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.pop(context, true);
+                  }),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,7 +53,7 @@ class ProductPage extends StatelessWidget {
               padding: EdgeInsets.all(10.0),
               child: RaisedButton(
                 color: Theme.of(context).accentColor,
-                onPressed: () => Navigator.pop(context, true),
+                onPressed: () => _deleteDialog(context),
                 child: Text("Delete"),
               ),
             )

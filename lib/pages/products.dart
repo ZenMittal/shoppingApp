@@ -4,6 +4,11 @@ import '../products_manager.dart';
 import './products_admin.dart';
 
 class ProductsPage extends StatelessWidget {
+  ProductsPage(this.products, this.addProd, this.deleteProd);
+  final List<Map<String, String>> products;
+  final Function addProd;
+  final Function deleteProd;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,21 +23,15 @@ class ProductsPage extends StatelessWidget {
               title: Text("Choose"),
             ),
             ListTile(
-              title: Text("Something Something"),
+              title: Text("Manage Products"),
               onTap: () {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return ManageProductsPage();
-                    }));
+                Navigator.pushReplacementNamed(context, "/admin");
               },
             )
           ],
         ),
       ),
-      body: ProductsManager({
-        "title": "Icecream Please 😍😍😍",
-        "imageURL": "lib/assets/cover.jpg"
-      }),
+      body: ProductsManager(products, addProd, deleteProd),
     );
   }
 }
