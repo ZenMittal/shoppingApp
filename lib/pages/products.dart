@@ -4,10 +4,8 @@ import '../products_manager.dart';
 import './products_admin.dart';
 
 class ProductsPage extends StatelessWidget {
-  ProductsPage(this.products, this.addProd, this.deleteProd);
-  final List<Map<String, String>> products;
-  final Function addProd;
-  final Function deleteProd;
+  ProductsPage(this.products);
+  final List<Map<String, dynamic>> products;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class ProductsPage extends StatelessWidget {
           ],
         ),
       ),
-      body: ProductsManager(products, addProd, deleteProd),
+      body: ProductsManager(products),
     );
   }
 }

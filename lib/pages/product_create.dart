@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ProductCreatePage extends StatefulWidget {
+  ProductCreatePage(this.addProd, this.deleteProd);
+  final Function addProd;
+  final Function deleteProd;
+
   @override
   State<StatefulWidget> createState() {
     return _ProductCreatePageState();
@@ -8,9 +12,9 @@ class ProductCreatePage extends StatefulWidget {
 }
 
 class _ProductCreatePageState extends State<ProductCreatePage> {
-  String titleValue = "";
-  String descrValue = "";
-  double priceValue = 0.0;
+  String _titleValue = "";
+  String _descrValue = "";
+  double _priceValue = 0.0;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +25,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
           TextField(
             onChanged: (String value) {
               setState(() {
-                titleValue = value;
+                _titleValue = value;
               });
             },
             decoration: InputDecoration(labelText: "Product Name"),
@@ -30,7 +34,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             maxLines: 4,
             onChanged: (String value) {
               setState(() {
-                descrValue = value;
+                _descrValue = value;
               });
             },
             decoration: InputDecoration(labelText: "Product Desciption"),
@@ -39,11 +43,25 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             keyboardType: TextInputType.number,
             onChanged: (String value) {
               setState(() {
-                priceValue = double.parse(value);
+                _priceValue = double.parse(value);
               });
             },
             decoration: InputDecoration(labelText: "Product Price"),
-          )
+          ),
+          SizedBox(height: 10.0,),
+          RaisedButton(
+            child: Text("Save Product"),
+            color: Theme.of(context).accentColor,
+            onPressed: () {
+              widget.addProd({
+                "title": _titleValue,
+                "description": _descrValue,
+                "price": _priceValue,
+                "imageURL": "lib/assets/img/cover.jpg"
+              });
+              Navigator.pushReplacementNamed(context, "/");
+            },
+          ),
         ],
       ),
     );

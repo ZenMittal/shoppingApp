@@ -3,16 +3,25 @@ import 'package:flutter/material.dart';
 import 'pages/product.dart';
 
 class ProductsBuilder extends StatelessWidget {
-  ProductsBuilder(this.products, {this.deleteProd});
+  ProductsBuilder(this.products);
 
-  final List<Map<String, String>> products;
-  final Function deleteProd;
+  final List<Map<String, dynamic>> products;
 
   Widget _buildProductItem(BuildContext context, int index) {
     return Card(
         child: Column(children: <Widget>[
       Image.asset(products[index]["imageURL"]),
-      Text(products[index]["title"]),
+      SizedBox(
+        height: 7.0,
+      ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(products[index]["title"], style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),),
+          SizedBox(width: 10.0,),
+          Text(products[index]["price"].toString())
+        ],
+      ),
       Center(
         child: FlatButton(
           child: Text("Details"),
@@ -22,7 +31,7 @@ class ProductsBuilder extends StatelessWidget {
               "/product/" + index.toString(),
             ).then((bool value) {
               if (value) {
-                deleteProd(index);
+                // deleteProd(index);
               }
             });
           },
