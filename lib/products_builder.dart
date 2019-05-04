@@ -17,9 +17,22 @@ class ProductsBuilder extends StatelessWidget {
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(products[index]["title"], style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),),
-          SizedBox(width: 10.0,),
-          Text(products[index]["price"].toString())
+          Text(
+            products[index]["title"],
+            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
+            decoration: BoxDecoration(
+                color: Theme.of(context).accentColor,
+                borderRadius: BorderRadius.circular(5.0)),
+            child: Text(
+              "\$" + products[index]["price"].toString(),
+            ),
+          ),
         ],
       ),
       Center(
