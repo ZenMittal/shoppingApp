@@ -15,11 +15,10 @@ class ProductPage extends StatelessWidget {
             content: Text("This action can not be undone."),
             actions: <Widget>[
               FlatButton(
-                child: Text("Go Back"),
-                onPressed: () {
-                  Navigator.pop(context);
-                }
-              ),
+                  child: Text("Go Back"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  }),
               FlatButton(
                   child: Text("Delete"),
                   onPressed: () {
@@ -39,15 +38,22 @@ class ProductPage extends StatelessWidget {
         return Future.value(false);
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: Text("Product Detail"),
-          ),
-          body:
-              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+        appBar: AppBar(
+          title: Text("Product Detail"),
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             Image.asset(imageURL),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25.0,),),
+              child: Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25.0,
+                ),
+              ),
             ),
             Container(
               padding: EdgeInsets.all(10.0),
@@ -56,8 +62,10 @@ class ProductPage extends StatelessWidget {
                 onPressed: () => _deleteDialog(context),
                 child: Text("Delete"),
               ),
-            )
-          ])),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

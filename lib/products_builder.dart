@@ -9,48 +9,59 @@ class ProductsBuilder extends StatelessWidget {
 
   Widget _buildProductItem(BuildContext context, int index) {
     return Card(
-        child: Column(children: <Widget>[
-      Image.asset(products[index]["imageURL"]),
-      SizedBox(
-        height: 7.0,
-      ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
         children: <Widget>[
-          Text(
-            products[index]["title"],
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
-          ),
+          Image.asset(products[index]["imageURL"]),
           SizedBox(
-            width: 10.0,
+            height: 7.0,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                products[index]["title"],
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
+              ),
+              SizedBox(
+                width: 10.0,
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.circular(4.0)),
+                child: Text(
+                  "\$" + products[index]["price"].toString(),
+                ),
+              ),
+            ],
           ),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
             decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.circular(5.0)),
-            child: Text(
-              "\$" + products[index]["price"].toString(),
+              border: Border.all(color: Colors.grey, width: 1.0),
+              borderRadius: BorderRadius.circular(4.0)
+            ),
+            child: Text("It feels nice to be a programmer"),
+          ),
+          Center(
+            child: FlatButton(
+              child: Text("Details"),
+              onPressed: () {
+                Navigator.pushNamed<bool>(
+                  context,
+                  "/product/" + index.toString(),
+                ).then((bool value) {
+                  if (value) {
+                    // deleteProd(index);
+                  }
+                });
+              },
             ),
           ),
         ],
       ),
-      Center(
-        child: FlatButton(
-          child: Text("Details"),
-          onPressed: () {
-            Navigator.pushNamed<bool>(
-              context,
-              "/product/" + index.toString(),
-            ).then((bool value) {
-              if (value) {
-                // deleteProd(index);
-              }
-            });
-          },
-        ),
-      )
-    ]));
+    );
   }
 
   Widget productCards;

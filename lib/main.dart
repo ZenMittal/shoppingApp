@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
 
 import './pages/auth.dart';
 import './pages/products_admin.dart';
@@ -7,7 +8,10 @@ import './pages/product.dart';
 import './pages/product_create.dart';
 
 
-void main() => runApp(MyApp());
+void main() {
+  // debugPaintSizeEnabled = true;
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -35,10 +39,25 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        textTheme: TextTheme(
+          // body1: TextStyle(fontFamily: "Raleway"),
+          // button: TextStyle(fontFamily: "Raleway"),
+          // body2: TextStyle(fontFamily: "Raleway"),
+          // display1: TextStyle(fontFamily: "Raleway"),
+          // display2: TextStyle(fontFamily: "Raleway"),
+          // display3: TextStyle(fontFamily: "Raleway"),
+          // display4: TextStyle(fontFamily: "Raleway"),
+          // caption: TextStyle(fontFamily: "Raleway"),
+          // headline: TextStyle(fontFamily: "Raleway"),
+          // overline: TextStyle(fontFamily: "Raleway"),
+          // subhead: TextStyle(fontFamily: "Raleway"),
+          // subtitle: TextStyle(fontFamily: "Raleway"),
+          // title: TextStyle(fontFamily: "Raleway"),
+        ),
         brightness: Brightness.light,
         primarySwatch: Colors.deepPurple,
-        accentColor: Colors.amberAccent,
-        fontFamily: "Mont",
+        accentColor: Colors.lime,
+        fontFamily: "Raleway",
       ),
       // home: AuthPage(),
       routes: {
