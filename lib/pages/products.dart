@@ -12,6 +12,11 @@ class ProductsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("List App"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite),
+          )
+        ],
       ),
       drawer: Drawer(
         child: Column(

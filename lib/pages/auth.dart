@@ -35,7 +35,7 @@ class _AuthPageState extends State<AuthPage> {
             child: Column(
               children: <Widget>[
                 TextField(
-                  decoration: InputDecoration(labelText: "Email Address"),
+                  decoration: InputDecoration(labelText: "Email Address", filled: true),
                   onChanged: (value) {
                     setState(() {
                       _email = value;
@@ -43,7 +43,7 @@ class _AuthPageState extends State<AuthPage> {
                   },
                 ),
                 TextField(
-                  decoration: InputDecoration(labelText: "Password"),
+                  decoration: InputDecoration(labelText: "Password", filled: true),
                   onChanged: (value) {
                     setState(() {
                       _password = value;
@@ -62,7 +62,7 @@ class _AuthPageState extends State<AuthPage> {
                 SizedBox(height: 10.0),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, "/");
+                    Navigator.pushReplacementNamed(context, "/products");
                   },
                   color: Theme.of(context).accentColor,
                   child: Text("Login"),

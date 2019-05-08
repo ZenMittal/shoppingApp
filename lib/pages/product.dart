@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import "dart:async";
 
 class ProductPage extends StatelessWidget {
-  ProductPage({String this.title, String this.imageURL});
+  ProductPage(
+      {String this.title,
+      String this.imageURL,
+      String this.price,
+      String this.description});
   final String title;
   final String imageURL;
+  final String price;
+  final String description;
 
   _deleteDialog(BuildContext context) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Delete" + title + "?"),
-            content: Text("This action can not be undone."),
+            title: Text("This action can not be undone."),
+            content: Text("Delete" + title + "?"),
             actions: <Widget>[
               FlatButton(
                   child: Text("Go Back"),
@@ -55,6 +61,12 @@ class ProductPage extends StatelessWidget {
                 ),
               ),
             ),
+            Text(
+              "21 Baker Street, London | \$" + price,
+              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+            ),
+            SizedBox(height: 10.0,),
+            Text(description),
             Container(
               padding: EdgeInsets.all(10.0),
               child: RaisedButton(

@@ -59,7 +59,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
                 "price": _priceValue,
                 "imageURL": "lib/assets/img/cover.jpg"
               });
-              Navigator.pushReplacementNamed(context, "/");
+              Navigator.pushReplacementNamed(context, "/products");
             },
           ),
         ],

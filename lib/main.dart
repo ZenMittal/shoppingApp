@@ -59,9 +59,9 @@ class _MyAppState extends State<MyApp> {
         accentColor: Colors.lime,
         fontFamily: "Raleway",
       ),
-      // home: AuthPage(),
+      home: AuthPage(),
       routes: {
-        "/": (BuildContext context) => ProductsPage(_products),
+        "/products": (BuildContext context) => ProductsPage(_products),
         "/admin": (BuildContext context) => ProductsAdminPage(_addProduct, _deleteProduct),
       },
       onGenerateRoute: (RouteSettings route) {
@@ -75,6 +75,8 @@ class _MyAppState extends State<MyApp> {
             return ProductPage(
               title: _products[index]["title"],
               imageURL: _products[index]["imageURL"],
+              price: _products[index]["price"].toString(),
+              description: _products[index]["description"]
             );
           });
         }
