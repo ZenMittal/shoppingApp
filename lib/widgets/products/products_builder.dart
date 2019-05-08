@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'pages/product.dart';
+import '../../pages/product.dart';
+import './price_tag.dart';
 
 class ProductsBuilder extends StatelessWidget {
   ProductsBuilder(this.products);
@@ -25,15 +26,7 @@ class ProductsBuilder extends StatelessWidget {
               SizedBox(
                 width: 10.0,
               ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
-                decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                    borderRadius: BorderRadius.circular(4.0)),
-                child: Text(
-                  "\$" + products[index]["price"].toString(),
-                ),
-              ),
+              PriceTag(products[index]["price"]),
             ],
           ),
           Container(
@@ -42,7 +35,7 @@ class ProductsBuilder extends StatelessWidget {
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 1.0),
                 borderRadius: BorderRadius.circular(4.0)),
-            child: Text("It feels nice to be a programmer"),
+            child: Text("21 Baker Street, London"),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -64,7 +57,7 @@ class ProductsBuilder extends StatelessWidget {
               IconButton(
                 color: Colors.red,
                 icon: Icon(Icons.favorite_border),
-                onPressed: (){},
+                onPressed: () {},
               )
             ],
           ),
