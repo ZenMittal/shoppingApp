@@ -37,27 +37,36 @@ class ProductsBuilder extends StatelessWidget {
             ],
           ),
           Container(
+            margin: EdgeInsets.symmetric(vertical: 5.0),
             padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey, width: 1.0),
-              borderRadius: BorderRadius.circular(4.0)
-            ),
+                border: Border.all(color: Colors.grey, width: 1.0),
+                borderRadius: BorderRadius.circular(4.0)),
             child: Text("It feels nice to be a programmer"),
           ),
-          Center(
-            child: FlatButton(
-              child: Text("Details"),
-              onPressed: () {
-                Navigator.pushNamed<bool>(
-                  context,
-                  "/product/" + index.toString(),
-                ).then((bool value) {
-                  if (value) {
-                    // deleteProd(index);
-                  }
-                });
-              },
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              IconButton(
+                icon: Icon(Icons.info),
+                color: Theme.of(context).primaryColor,
+                onPressed: () {
+                  Navigator.pushNamed<bool>(
+                    context,
+                    "/product/" + index.toString(),
+                  ).then((bool value) {
+                    if (value) {
+                      // deleteProd(index);
+                    }
+                  });
+                },
+              ),
+              IconButton(
+                color: Colors.red,
+                icon: Icon(Icons.favorite_border),
+                onPressed: (){},
+              )
+            ],
           ),
         ],
       ),
