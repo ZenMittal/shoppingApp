@@ -11,13 +11,22 @@ class ProductListPage extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (BuildContext context, index) {
         return ListTile(
-          leading: Image.asset(products[index]["image"]),
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return ProductEditPage(product: products[index]);
+              }));
+            },
+            child: Image.asset(products[index]["image"]),
+          ),
           title: Text(products[index]["title"]),
           trailing: IconButton(
             icon: Icon(Icons.edit),
-            onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context){
-                ProductEditPage(product: products[index]);
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (BuildContext context) {
+                return ProductEditPage(product: products[index]);
               }));
             },
           ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProductEditPage extends StatefulWidget {
-  ProductEditPage({this.addProd, this.deleteProd, this.updateProd, this.product});
+  ProductEditPage(
+      {this.addProd, this.deleteProd, this.updateProd, this.product});
   final Function addProd;
   final Function deleteProd;
   final Function updateProd;
@@ -75,13 +76,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
     Navigator.pushReplacementNamed(context, "/products");
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     final deviceWidth = MediaQuery.of(context).size.width;
     final targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.90;
-    final paddingWidth = deviceWidth - targetWidth;
-
-    return GestureDetector(
+    final targetPadding = deviceWidth - targetWidth;
+    final Widget pageContent = GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -90,7 +92,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: paddingWidth / 2),
+            padding: EdgeInsets.symmetric(horizontal: targetPadding / 2),
             children: <Widget>[
               _buildTitleInput(),
               _buildDescrInput(),
@@ -107,5 +109,15 @@ class _ProductEditPageState extends State<ProductEditPage> {
         ),
       ),
     );
+
+    if (widget.product == null)
+      return pageContent;
+    else
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Edit Product"),
+        ),
+        body: pageContent,
+      );
   }
 }
