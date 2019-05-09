@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 
 class ProductEditPage extends StatefulWidget {
   ProductEditPage(
-      {this.addProd, this.deleteProd, this.updateProd, this.product});
+      {this.addProd,
+      this.deleteProd,
+      this.updateProd,
+      this.product,
+      this.productIndex});
   final Function addProd;
   final Function deleteProd;
   final Function updateProd;
   final Map<String, dynamic> product;
+  final int productIndex;
 
   @override
   State<StatefulWidget> createState() {
@@ -26,6 +31,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
   Widget _buildTitleInput() {
     return TextFormField(
       decoration: InputDecoration(labelText: "Product Name"),
+      initialValue: widget.product == null ? "" : widget.product["title"],
       validator: (value) {
         if (value.trim().isEmpty || value.trim().length < 5) {
           return ("Title is required and should be at least 5 characters");
@@ -41,6 +47,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     return TextFormField(
       maxLines: 4,
       decoration: InputDecoration(labelText: "Product Desciption"),
+      initialValue: widget.product == null ? "" : widget.product["description"],
       validator: (value) {
         if (value.trim().isEmpty || value.trim().length < 10) {
           return ("Description is required and should be at least 10 characters");
@@ -56,6 +63,8 @@ class _ProductEditPageState extends State<ProductEditPage> {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: "Product Price"),
+      initialValue:
+          widget.product == null ? "" : widget.product["price"].toString(),
       validator: (value) {
         if (value.trim().isEmpty || !RegExp(r"^[0-9/.]*$").hasMatch(value)) {
           return ("Price is required and should be a number");
@@ -72,11 +81,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
       return;
     }
     _formKey.currentState.save();
-    widget.addProd(_formData);
+    
+    if (widget.product == null) {
+      widget.addProd(_formData);
+    } else {
+      widget.updateProd(widget.productIndex, _formData);
+    }
     Navigator.pushReplacementNamed(context, "/products");
   }
-
-  
 
   @override
   Widget build(BuildContext context) {

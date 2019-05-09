@@ -5,8 +5,6 @@ import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
-import './pages/product_edit.dart';
-
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -29,6 +27,12 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _updateProduct(index, Map<String, dynamic> product) {
+    setState(() {
+      _products[index] = product;
+    });
+  }
+
   void _deleteProduct(int index) {
     setState(() {
       _products.removeAt(index);
@@ -40,20 +44,20 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       theme: ThemeData(
         textTheme: TextTheme(
-          // body1: TextStyle(fontFamily: "Raleway"),
-          // button: TextStyle(fontFamily: "Raleway"),
-          // body2: TextStyle(fontFamily: "Raleway"),
-          // display1: TextStyle(fontFamily: "Raleway"),
-          // display2: TextStyle(fontFamily: "Raleway"),
-          // display3: TextStyle(fontFamily: "Raleway"),
-          // display4: TextStyle(fontFamily: "Raleway"),
-          // caption: TextStyle(fontFamily: "Raleway"),
-          // headline: TextStyle(fontFamily: "Raleway"),
-          // overline: TextStyle(fontFamily: "Raleway"),
-          // subhead: TextStyle(fontFamily: "Raleway"),
-          // subtitle: TextStyle(fontFamily: "Raleway"),
-          // title: TextStyle(fontFamily: "Raleway"),
-        ),
+            // body1: TextStyle(fontFamily: "Raleway"),
+            // button: TextStyle(fontFamily: "Raleway"),
+            // body2: TextStyle(fontFamily: "Raleway"),
+            // display1: TextStyle(fontFamily: "Raleway"),
+            // display2: TextStyle(fontFamily: "Raleway"),
+            // display3: TextStyle(fontFamily: "Raleway"),
+            // display4: TextStyle(fontFamily: "Raleway"),
+            // caption: TextStyle(fontFamily: "Raleway"),
+            // headline: TextStyle(fontFamily: "Raleway"),
+            // overline: TextStyle(fontFamily: "Raleway"),
+            // subhead: TextStyle(fontFamily: "Raleway"),
+            // subtitle: TextStyle(fontFamily: "Raleway"),
+            // title: TextStyle(fontFamily: "Raleway"),
+            ),
         brightness: Brightness.light,
         primarySwatch: Colors.deepPurple,
         accentColor: Colors.lime,
@@ -63,7 +67,8 @@ class _MyAppState extends State<MyApp> {
       home: AuthPage(),
       routes: {
         "/products": (BuildContext context) => ProductsPage(_products),
-        "/admin": (BuildContext context) => ProductsAdminPage(_addProduct, _deleteProduct, _products),
+        "/admin": (BuildContext context) =>
+            ProductsAdminPage(_addProduct, _updateProduct, _deleteProduct, _products),
       },
       onGenerateRoute: (RouteSettings route) {
         final List<String> pathElements = route.name.split("/");
@@ -74,18 +79,16 @@ class _MyAppState extends State<MyApp> {
           final int index = int.parse(pathElements[2]);
           return MaterialPageRoute<bool>(builder: (context) {
             return ProductPage(
-              title: _products[index]["title"],
-              image: _products[index]["image"],
-              price: _products[index]["price"].toString(),
-              description: _products[index]["description"]
-            );
+                title: _products[index]["title"],
+                image: _products[index]["image"],
+                price: _products[index]["price"].toString(),
+                description: _products[index]["description"]);
           });
         }
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) =>
-                ProductsPage(_products));
+            builder: (BuildContext context) => ProductsPage(_products));
       },
     );
   }
