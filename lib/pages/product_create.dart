@@ -18,9 +18,14 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  Widget _buildEmailInput() {
+  Widget _buildTitleInput() {
     return TextFormField(
       decoration: InputDecoration(labelText: "Product Name"),
+      validator: (value) {
+        if(value.trim().isEmpty) {
+          return("Must have a title");
+        }
+      },
       onSaved: (String value) {
         setState(() {
           _titleValue = value;
@@ -54,6 +59,9 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   }
 
   void _submitForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
     _formKey.currentState.save();
     widget.addProd({
       "title": _titleValue,
@@ -77,7 +85,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
         key: _formKey,
         child: ListView(
           children: <Widget>[
-            _buildEmailInput(),
+            _buildTitleInput(),
             _buildDescrInput(),
             _buildPriceInput(),
             SizedBox(
