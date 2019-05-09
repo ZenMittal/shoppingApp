@@ -13,6 +13,7 @@ class _AuthPageState extends State<AuthPage> {
   String _email;
   String _password;
   bool _terms = false;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DecorationImage _addBgImage() {
     return DecorationImage(
@@ -24,24 +25,31 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Widget _buildEmailInput() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(labelText: "Email Address", filled: true),
       keyboardType: TextInputType.emailAddress,
-      onChanged: (value) {
-        setState(() {
-          _email = value;
-        });
+      validator: (value) {
+        if (!RegExp(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
+            .hasMatch(value)) {
+          return ("Not a valid email address.");
+        }
+      },
+      onSaved: (value) {
+        _email = value;
       },
     );
   }
 
   Widget _buildPasswordInput() {
-    return TextField(
+    return TextFormField(
       decoration: InputDecoration(labelText: "Password", filled: true),
-      onChanged: (value) {
-        setState(() {
-          _password = value;
-        });
+      validator: (value) {
+        if (value.trim().length < 8) {
+          return ("Password should be at least 8 characters long");
+        }
+      },
+      onSaved: (value) {
+        _password = value;
       },
     );
   }
@@ -58,11 +66,18 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
+  void _submitForm() {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+    _formKey.currentState.save();
+    Navigator.pushReplacementNamed(context, "/products");
+  }
 
   @override
   Widget build(BuildContext context) {
-  final double deviceWidth = MediaQuery.of(context).size.width;
-  final double targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.85;
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    final double targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.85;
     return Scaffold(
       appBar: AppBar(
         title: Text("Login"),
@@ -76,19 +91,20 @@ class _AuthPageState extends State<AuthPage> {
           child: SingleChildScrollView(
             child: Container(
               width: targetWidth,
-              child: Column(
-                children: <Widget>[
-                  _buildEmailInput(),
-                  _buildPasswordInput(),
-                  _buildTermsSwitch(),
-                  SizedBox(height: 10.0),
-                  RaisedButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, "/products");
-                    },
-                    child: Text("Login"),
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    _buildEmailInput(),
+                    _buildPasswordInput(),
+                    _buildTermsSwitch(),
+                    SizedBox(height: 10.0),
+                    RaisedButton(
+                      onPressed: _submitForm,
+                      child: Text("Login"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
