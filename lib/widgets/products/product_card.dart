@@ -50,7 +50,7 @@ class ProductCard extends StatelessWidget {
     return Card(
       child: Column(
         children: <Widget>[
-          Image.asset(product["imageURL"]),
+          Image.asset(product["image"]),
           SizedBox(
             height: 7.0,
           ),

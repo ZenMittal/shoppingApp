@@ -6,11 +6,11 @@ import '../widgets/ui_elements/title_default.dart';
 class ProductPage extends StatelessWidget {
   ProductPage(
       {String this.title,
-      String this.imageURL,
+      String this.image,
       String this.price,
       String this.description});
   final String title;
-  final String imageURL;
+  final String image;
   final String price;
   final String description;
 
@@ -52,7 +52,7 @@ class ProductPage extends StatelessWidget {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(imageURL),
+            Image.asset(image),
             Container(
               padding: EdgeInsets.all(10.0),
               child: TitleDefault(title),

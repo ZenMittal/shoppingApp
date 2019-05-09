@@ -16,7 +16,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     "title": null,
     "description": null,
     "price": null,
-    "imageURL": "lib/assets/img/cover.jpg"
+    "image": "lib/assets/img/cover.jpg"
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

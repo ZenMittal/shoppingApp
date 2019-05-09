@@ -10,9 +10,11 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  String _email;
-  String _password;
-  bool _terms = false;
+  final Map<String, dynamic> _formData = {
+    "email": null,
+    "password": null,
+    "acceptTerms": false
+  };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DecorationImage _addBgImage() {
@@ -35,7 +37,7 @@ class _AuthPageState extends State<AuthPage> {
         }
       },
       onSaved: (value) {
-        _email = value;
+        _formData["email"] = value;
       },
     );
   }
@@ -49,17 +51,17 @@ class _AuthPageState extends State<AuthPage> {
         }
       },
       onSaved: (value) {
-        _password = value;
+        _formData["password"] = value;
       },
     );
   }
 
   Widget _buildTermsSwitch() {
     return SwitchListTile(
-      value: _terms,
+      value: _formData["acceptTerms"],
       onChanged: (bool value) {
         setState(() {
-          _terms = value;
+          _formData["acceptTerms"] = value;
         });
       },
       title: Text("Accept our terms and conditions"),
@@ -67,9 +69,9 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _submitForm() {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
+    // if (!_formKey.currentState.validate() || !_formData["acceptTerms"]) {
+    //   return;
+    // }
     _formKey.currentState.save();
     Navigator.pushReplacementNamed(context, "/products");
   }

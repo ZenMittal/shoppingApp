@@ -63,7 +63,7 @@ class _MyAppState extends State<MyApp> {
       home: AuthPage(),
       routes: {
         "/products": (BuildContext context) => ProductsPage(_products),
-        "/admin": (BuildContext context) => ProductsAdminPage(_addProduct, _deleteProduct),
+        "/admin": (BuildContext context) => ProductsAdminPage(_addProduct, _deleteProduct, _products),
       },
       onGenerateRoute: (RouteSettings route) {
         final List<String> pathElements = route.name.split("/");
@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialPageRoute<bool>(builder: (context) {
             return ProductPage(
               title: _products[index]["title"],
-              imageURL: _products[index]["imageURL"],
+              image: _products[index]["image"],
               price: _products[index]["price"].toString(),
               description: _products[index]["description"]
             );
