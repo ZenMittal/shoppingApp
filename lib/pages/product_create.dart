@@ -15,43 +15,46 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String _titleValue = "";
   String _descrValue = "";
   double _priceValue = 0.0;
+  
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildEmailInput() {
-    return TextField(
-      onChanged: (String value) {
+    return TextFormField(
+      decoration: InputDecoration(labelText: "Product Name"),
+      onSaved: (String value) {
         setState(() {
           _titleValue = value;
         });
       },
-      decoration: InputDecoration(labelText: "Product Name"),
     );
   }
 
   Widget _buildDescrInput() {
-    return TextField(
+    return TextFormField(
       maxLines: 4,
-      onChanged: (String value) {
+      decoration: InputDecoration(labelText: "Product Desciption"),
+      onSaved: (String value) {
         setState(() {
           _descrValue = value;
         });
       },
-      decoration: InputDecoration(labelText: "Product Desciption"),
     );
   }
 
   Widget _buildPriceInput() {
-    return TextField(
+    return TextFormField(
       keyboardType: TextInputType.number,
-      onChanged: (String value) {
+      decoration: InputDecoration(labelText: "Product Price"),
+      onSaved: (String value) {
         setState(() {
           _priceValue = double.parse(value);
         });
       },
-      decoration: InputDecoration(labelText: "Product Price"),
     );
   }
 
   void _submitForm() {
+    _formKey.currentState.save();
     widget.addProd({
       "title": _titleValue,
       "description": _descrValue,
@@ -63,22 +66,29 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final deviceWidth = MediaQuery.of(context).size.width;
+    final targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.90;
+    final paddingWidth = deviceWidth - targetWidth;
+
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: paddingWidth / 2),
       margin: EdgeInsets.all(20.0),
-      child: ListView(
-        children: <Widget>[
-          _buildEmailInput(),
-          _buildDescrInput(),
-          _buildPriceInput(),
-          SizedBox(
-            height: 10.0,
-          ),
-          RaisedButton(
-            child: Text("Save Product"),
-            color: Theme.of(context).accentColor,
-            onPressed: _submitForm,
-          ),
-        ],
+      child: Form(
+        key: _formKey,
+        child: ListView(
+          children: <Widget>[
+            _buildEmailInput(),
+            _buildDescrInput(),
+            _buildPriceInput(),
+            SizedBox(
+              height: 10.0,
+            ),
+            RaisedButton(
+              child: Text("Save Product"),
+              onPressed: _submitForm,
+            ),
+          ],
+        ),
       ),
     );
   }

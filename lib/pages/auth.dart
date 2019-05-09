@@ -86,7 +86,6 @@ class _AuthPageState extends State<AuthPage> {
                     onPressed: () {
                       Navigator.pushReplacementNamed(context, "/products");
                     },
-                    color: Theme.of(context).accentColor,
                     child: Text("Login"),
                   ),
                 ],
