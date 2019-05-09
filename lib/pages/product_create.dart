@@ -15,15 +15,15 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
   String _titleValue = "";
   String _descrValue = "";
   double _priceValue = 0.0;
-  
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Widget _buildTitleInput() {
     return TextFormField(
       decoration: InputDecoration(labelText: "Product Name"),
       validator: (value) {
-        if(value.trim().isEmpty) {
-          return("Must have a title");
+        if (value.trim().isEmpty || value.trim().length < 5) {
+          return ("Title is required and should be at least 5 characters");
         }
       },
       onSaved: (String value) {
@@ -38,6 +38,11 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     return TextFormField(
       maxLines: 4,
       decoration: InputDecoration(labelText: "Product Desciption"),
+      validator: (value) {
+        if (value.trim().isEmpty || value.trim().length < 10) {
+          return ("Description is required and should be at least 10 characters");
+        }
+      },
       onSaved: (String value) {
         setState(() {
           _descrValue = value;
@@ -50,6 +55,11 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(labelText: "Product Price"),
+      validator: (value) {
+        if (value.trim().isEmpty || !RegExp(r"^[0-9/.]*$").hasMatch(value)) {
+          return ("Price is required and should be a number");
+        }
+      },
       onSaved: (String value) {
         setState(() {
           _priceValue = double.parse(value);
@@ -78,24 +88,29 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
     final targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.90;
     final paddingWidth = deviceWidth - targetWidth;
 
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: paddingWidth / 2),
-      margin: EdgeInsets.all(20.0),
-      child: Form(
-        key: _formKey,
-        child: ListView(
-          children: <Widget>[
-            _buildTitleInput(),
-            _buildDescrInput(),
-            _buildPriceInput(),
-            SizedBox(
-              height: 10.0,
-            ),
-            RaisedButton(
-              child: Text("Save Product"),
-              onPressed: _submitForm,
-            ),
-          ],
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+      },
+      child: Container(
+        margin: EdgeInsets.all(20.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            padding: EdgeInsets.symmetric(horizontal: paddingWidth / 2),
+            children: <Widget>[
+              _buildTitleInput(),
+              _buildDescrInput(),
+              _buildPriceInput(),
+              SizedBox(
+                height: 10.0,
+              ),
+              RaisedButton(
+                child: Text("Save Product"),
+                onPressed: _submitForm,
+              ),
+            ],
+          ),
         ),
       ),
     );
