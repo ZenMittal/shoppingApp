@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import "dart:async";
 
+import '../widgets/ui_elements/title_default.dart';
+
 class ProductPage extends StatelessWidget {
   ProductPage(
       {String this.title,
@@ -53,13 +55,7 @@ class ProductPage extends StatelessWidget {
             Image.asset(imageURL),
             Container(
               padding: EdgeInsets.all(10.0),
-              child: Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25.0,
-                ),
-              ),
+              child: TitleDefault(title),
             ),
             Text(
               "21 Baker Street, London | \$" + price,

@@ -1,70 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../pages/product.dart';
-import './price_tag.dart';
+import './product_card.dart';
 
 class ProductsBuilder extends StatelessWidget {
   ProductsBuilder(this.products);
 
   final List<Map<String, dynamic>> products;
-
-  Widget _buildProductItem(BuildContext context, int index) {
-    return Card(
-      child: Column(
-        children: <Widget>[
-          Image.asset(products[index]["imageURL"]),
-          SizedBox(
-            height: 7.0,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                products[index]["title"],
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20.0),
-              ),
-              SizedBox(
-                width: 10.0,
-              ),
-              PriceTag(products[index]["price"]),
-            ],
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 5.0),
-            padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.5),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1.0),
-                borderRadius: BorderRadius.circular(4.0)),
-            child: Text("21 Baker Street, London"),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              IconButton(
-                icon: Icon(Icons.info),
-                color: Theme.of(context).primaryColor,
-                onPressed: () {
-                  Navigator.pushNamed<bool>(
-                    context,
-                    "/product/" + index.toString(),
-                  ).then((bool value) {
-                    if (value) {
-                      // deleteProd(index);
-                    }
-                  });
-                },
-              ),
-              IconButton(
-                color: Colors.red,
-                icon: Icon(Icons.favorite_border),
-                onPressed: () {},
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget productCards;
 
@@ -74,7 +15,7 @@ class ProductsBuilder extends StatelessWidget {
     );
     if (products.length > 0) {
       productCards = ListView.builder(
-        itemBuilder: _buildProductItem,
+        itemBuilder: (BuildContext context, index) => ProductCard(products[index], index),
         itemCount: products.length,
       );
     }
