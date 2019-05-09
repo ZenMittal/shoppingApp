@@ -5,7 +5,7 @@ import './pages/auth.dart';
 import './pages/products_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
-import './pages/product_create.dart';
+import './pages/product_edit.dart';
 
 
 void main() {
