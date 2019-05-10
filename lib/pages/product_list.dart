@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import "./product_edit.dart";
 
 class ProductListPage extends StatelessWidget {
-  ProductListPage(this.products, this.updateProd);
+  ProductListPage(this.products, this.updateProd, this.deleteProd);
   final List<Map<String, dynamic>> products;
   final Function updateProd;
+  final Function deleteProd;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,12 @@ class ProductListPage extends StatelessWidget {
             color: Colors.red[600],
             child: Icon(Icons.delete),
           ),
+          onDismissed: (DismissDirection dir) {
+            if(dir == DismissDirection.endToStart) {
+              deleteProd(index);
+            }
+            
+          },
           child: Column(
             children: <Widget>[
               ListTile(
