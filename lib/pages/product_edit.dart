@@ -81,7 +81,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
       return;
     }
     _formKey.currentState.save();
-    
+
     if (widget.product == null) {
       widget.addProd(_formData);
     } else {
@@ -90,12 +90,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
     Navigator.pushReplacementNamed(context, "/products");
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildpageContent() {
     final deviceWidth = MediaQuery.of(context).size.width;
     final targetWidth = deviceWidth >= 550 ? 450 : deviceWidth * 0.90;
     final targetPadding = deviceWidth - targetWidth;
-    final Widget pageContent = GestureDetector(
+
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(FocusNode());
       },
@@ -121,15 +121,18 @@ class _ProductEditPageState extends State<ProductEditPage> {
         ),
       ),
     );
+  }
 
+  @override
+  Widget build(BuildContext context) {
     if (widget.product == null)
-      return pageContent;
+      return _buildpageContent();
     else
       return Scaffold(
         appBar: AppBar(
           title: Text("Edit Product"),
         ),
-        body: pageContent,
+        body: _buildpageContent(),
       );
   }
 }
