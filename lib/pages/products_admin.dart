@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../models/product.dart';
+
 import './products.dart';
 import './product_edit.dart';
 import './product_list.dart';
@@ -10,7 +12,7 @@ class ProductsAdminPage extends StatelessWidget {
   final Function addProd;
   final Function updateProd;
   final Function deleteProd;
-  final List<Map<String, dynamic>> products;
+  final List<Product> products;
 
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
