@@ -5,12 +5,12 @@ import './product_edit.dart';
 import './product_list.dart';
 
 class ProductsAdminPage extends StatelessWidget {
-  ProductsAdminPage(this.addProd, this.updateProd, this.deleteProd, this.products);
+  ProductsAdminPage(
+      this.addProd, this.updateProd, this.deleteProd, this.products);
   final Function addProd;
   final Function updateProd;
   final Function deleteProd;
   final List<Map<String, dynamic>> products;
-
 
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
@@ -42,13 +42,23 @@ class ProductsAdminPage extends StatelessWidget {
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
-                icon: Icon(Icons.create),
-                child: Text("Create Product"),
+                child: Row(
+                  children: [
+                    Icon(Icons.add),
+                    SizedBox(width: 10.0),
+                    Text("Create Product"),
+                  ],
+                ),
               ),
               Tab(
-                icon: Icon(Icons.list),
-                child: Text("All Products"),
-              )
+                child: Row(
+                  children: [
+                    Icon(Icons.edit),
+                    SizedBox(width: 10.0),
+                    Text("Edit Products"),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
