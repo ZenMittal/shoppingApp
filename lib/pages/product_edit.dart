@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+
 import '../models/product.dart';
+import '../scoped_models/products.dart';
 
 class ProductEditPage extends StatefulWidget {
   ProductEditPage(
-      {this.addProd,
-      this.deleteProd,
-      this.updateProd,
-      this.product,
-      this.productIndex});
-  final Function addProd;
-  final Function deleteProd;
-  final Function updateProd;
+      {this.product, this.addProd, this.updateProd, this.productIndex});
   final Product product;
+  final Function addProd;
+  final Function updateProd;
   final int productIndex;
 
   @override
@@ -78,14 +76,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
     );
   }
 
-  void _submitForm() {
+  void _submitForm(Function addProduct) {
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
 
     if (widget.product == null) {
-      widget.addProd(
+      addProduct(
         Product(
           title: _formData["title"],
           description: _formData["description"],
@@ -105,6 +103,16 @@ class _ProductEditPageState extends State<ProductEditPage> {
       );
     }
     Navigator.pushReplacementNamed(context, "/products");
+  }
+
+  Widget _buildMainButton() {
+    return ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+      return RaisedButton(
+        child: Text("Save Product"),
+        onPressed: () => _submitForm(model.addProduct),
+      );
+    });
   }
 
   Widget _buildpageContent() {
@@ -129,10 +137,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
               SizedBox(
                 height: 10.0,
               ),
-              RaisedButton(
-                child: Text("Save Product"),
-                onPressed: _submitForm,
-              ),
+              _buildMainButton(),
             ],
           ),
         ),

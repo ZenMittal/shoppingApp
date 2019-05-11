@@ -5,8 +5,6 @@ import '../models/product.dart';
 import '../widgets/products/products_builder.dart';
 
 class ProductsPage extends StatelessWidget {
-  ProductsPage(this.products);
-  final List<Product> products;
 
   Widget _buildAppBar() {
     return AppBar(
@@ -44,7 +42,7 @@ class ProductsPage extends StatelessWidget {
     return Scaffold(
       appBar: _buildAppBar(),
       drawer: _buildDrawer(context),
-      body: ProductsBuilder(products),
+      body: ProductsBuilder(),
     );
   }
 }
