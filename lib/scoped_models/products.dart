@@ -6,7 +6,7 @@ class ProductsModel extends Model {
   List<Product> _products = [];
 
   List<Product> get products {
-    return List.from(_products);
+    return _products;
   }
 
   void addProduct(Product product) {

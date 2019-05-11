@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-import '../models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
 
+import '../scoped_models/products.dart';
+import '../models/product.dart';
 import './products.dart';
 import './product_edit.dart';
 import './product_list.dart';
 
 class ProductsAdminPage extends StatelessWidget {
-
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
       child: Column(
@@ -30,42 +31,46 @@ class ProductsAdminPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Manage Products"),
-          bottom: TabBar(
-            tabs: <Widget>[
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(Icons.add),
-                    SizedBox(width: 10.0),
-                    Text("Create Product"),
-                  ],
-                ),
+    return ScopedModelDescendant(
+      builder: (BuildContext context, Widget child, ProductsModel model) {
+        return DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text("Manage Products"),
+              bottom: TabBar(
+                tabs: <Widget>[
+                  Tab(
+                    child: Row(
+                      children: [
+                        Icon(Icons.add),
+                        SizedBox(width: 10.0),
+                        Text("Create Product"),
+                      ],
+                    ),
+                  ),
+                  Tab(
+                    child: Row(
+                      children: [
+                        Icon(Icons.edit),
+                        SizedBox(width: 10.0),
+                        Text("Edit Products"),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Tab(
-                child: Row(
-                  children: [
-                    Icon(Icons.edit),
-                    SizedBox(width: 10.0),
-                    Text("Edit Products"),
-                  ],
-                ),
-              ),
-            ],
+            ),
+            drawer: _buildDrawer(context),
+            body: TabBarView(
+              children: <Widget>[
+                ProductEditPage(addProd: model.addProduct),
+                ProductListPage(model.products, model.updateProduct, model.deleteProduct),
+              ],
+            ),
           ),
-        ),
-        drawer: _buildDrawer(context),
-        body: TabBarView(
-          children: <Widget>[
-            ProductEditPage(),
-            ProductListPage(null, null, null),
-          ],
-        ),
-      ),
+        );
+      },
     );
   }
 }

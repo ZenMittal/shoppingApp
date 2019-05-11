@@ -7,9 +7,9 @@ import '../scoped_models/products.dart';
 
 class ProductEditPage extends StatefulWidget {
   ProductEditPage(
-      {this.product, this.addProd, this.updateProd, this.productIndex});
-  final Product product;
+      {this.addProd, this.product, this.updateProd, this.productIndex});
   final Function addProd;
+  final Product product;
   final Function updateProd;
   final int productIndex;
 
@@ -76,14 +76,14 @@ class _ProductEditPageState extends State<ProductEditPage> {
     );
   }
 
-  void _submitForm(Function addProduct) {
+  void _submitForm() {
     if (!_formKey.currentState.validate()) {
       return;
     }
     _formKey.currentState.save();
 
     if (widget.product == null) {
-      addProduct(
+      widget.addProd(
         Product(
           title: _formData["title"],
           description: _formData["description"],
@@ -105,15 +105,12 @@ class _ProductEditPageState extends State<ProductEditPage> {
     Navigator.pushReplacementNamed(context, "/products");
   }
 
-  Widget _buildMainButton() {
-    return ScopedModelDescendant<ProductsModel>(
-        builder: (BuildContext context, Widget child, ProductsModel model) {
-      return RaisedButton(
-        child: Text("Save Product"),
-        onPressed: () => _submitForm(model.addProduct),
-      );
-    });
-  }
+  // Widget _buildMainButton() {
+  //   return ScopedModelDescendant<ProductsModel>(
+  //       builder: (BuildContext context, Widget child, ProductsModel model) {
+  //     return;
+  //   });
+  // }
 
   Widget _buildpageContent() {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -137,7 +134,10 @@ class _ProductEditPageState extends State<ProductEditPage> {
               SizedBox(
                 height: 10.0,
               ),
-              _buildMainButton(),
+              RaisedButton(
+                child: Text("Save Product"),
+                onPressed: () => _submitForm(),
+              ),
             ],
           ),
         ),
