@@ -12,6 +12,7 @@ class ProductsPage extends StatelessWidget {
       actions: <Widget>[
         IconButton(
           icon: Icon(Icons.favorite),
+          onPressed: (){},
         )
       ],
     );

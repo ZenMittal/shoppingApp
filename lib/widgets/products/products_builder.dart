@@ -10,13 +10,13 @@ class ProductsBuilder extends StatelessWidget {
 
   Widget productCards;
 
-  Widget _buildProductSection(products) {
+  Widget _buildProductSection(products, toggleFav) {
     productCards = Center(
       child: Text("No Products. Please add some."),
     );
     if (products.length > 0) {
       productCards = ListView.builder(
-        itemBuilder: (BuildContext context, index) => ProductCard(products[index], index),
+        itemBuilder: (BuildContext context, index) => ProductCard(products[index], toggleFav, index),
         itemCount: products.length,
       );
     }
@@ -26,7 +26,7 @@ class ProductsBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, child, ProductsModel model) {
-      return _buildProductSection(model.products);
+      return _buildProductSection(model.products, model.toggleFavorite);
     },);
   }
 }

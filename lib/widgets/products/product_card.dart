@@ -6,9 +6,10 @@ import './price_tag.dart';
 import '../ui_elements/title_default.dart';
 
 class ProductCard extends StatelessWidget {
-  ProductCard(this.product, this.prodIndex);
+  ProductCard(this.product, this.toggleFav, this.prodIndex);
 
   final Product product;
+  final Function toggleFav;
   final num prodIndex;
 
   Widget _buildAddressBar() {
@@ -39,11 +40,13 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget _favIconButton() {
+  Widget _favIconButton(product, prodIndex) {
     return IconButton(
       color: Colors.red,
-      icon: Icon(Icons.favorite_border),
-      onPressed: () {},
+      icon: Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
+      onPressed: () {
+        toggleFav(prodIndex);
+      },
     );
   }
 
@@ -71,7 +74,7 @@ class ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               _infoIconButton(context),
-              _favIconButton(),
+              _favIconButton(product, prodIndex),
             ],
           ),
         ],
