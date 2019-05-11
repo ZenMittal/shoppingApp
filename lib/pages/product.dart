@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 import "dart:async";
 
+import 'package:scoped_model/scoped_model.dart';
+
+import "../models/product.dart";
+import '../scoped_models/products.dart';
 import '../widgets/ui_elements/title_default.dart';
 
 class ProductPage extends StatelessWidget {
-  ProductPage(
-      {String this.title,
-      String this.image,
-      String this.price,
-      String this.description});
-  final String title;
-  final String image;
-  final String price;
-  final String description;
+  ProductPage(this.prodIndex);
+  final int prodIndex;
 
-  _deleteDialog(BuildContext context) {
+  _deleteDialog(BuildContext context, String title) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -45,34 +42,43 @@ class ProductPage extends StatelessWidget {
         Navigator.pop(context, false);
         return Future.value(false);
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Product Detail"),
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(image),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: TitleDefault(title),
+      child: ScopedModelDescendant<ProductsModel>(
+        builder: (BuildContext context, Widget child, ProductsModel model) {
+          Product product = model.products[prodIndex];
+          
+          return Scaffold(
+            appBar: AppBar(
+              title: Text("Product Detail"),
             ),
-            Text(
-              "21 Baker Street, London | \$" + price,
-              style: TextStyle(color: Colors.grey, fontWeight: FontWeight.w700),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(product.image),
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: TitleDefault(product.title),
+                ),
+                Text(
+                  "21 Baker Street, London | \$" + product.price.toString(),
+                  style: TextStyle(
+                      color: Colors.grey, fontWeight: FontWeight.w700),
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                Text(model.products[prodIndex].description),
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  child: RaisedButton(
+                    color: Theme.of(context).accentColor,
+                    onPressed: () => _deleteDialog(context, product.title),
+                    child: Text("Delete"),
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 10.0,),
-            Text(description),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: RaisedButton(
-                color: Theme.of(context).accentColor,
-                onPressed: () => _deleteDialog(context),
-                child: Text("Delete"),
-              ),
-            ),
-          ],
-        ),
+          );
+        },
       ),
     );
   }
