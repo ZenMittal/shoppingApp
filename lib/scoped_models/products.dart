@@ -4,9 +4,11 @@ import '../models/product.dart';
 
 class ProductsModel extends Model {
   List<Product> _products = [];
+  List<Product> _productsCopy; 
 
   List<Product> get products {
-    return _products;
+    _productsCopy = List.from(_products);
+    return _productsCopy;
   }
 
   void addProduct(Product product) {
@@ -19,5 +21,6 @@ class ProductsModel extends Model {
 
   void deleteProduct(int index) {
     _products.removeAt(index);
+    _productsCopy.removeAt(index);
   }
 }
