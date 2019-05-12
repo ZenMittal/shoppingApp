@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:scoped_model/scoped_model.dart';
+import 'package:http/http.dart' as http;
 
 import '../models/product.dart';
 import '../models/user.dart';
@@ -9,6 +12,13 @@ mixin UserProductsModel on Model {
 
   void addProduct(
       {String title, String description, double price, String image}) {
+        Map productData = {
+          "title": title,
+          "description": description,
+          "price": price,
+          "image": "https://images.unsplash.com/photo-1557517356-8b497896a6fb"
+        };
+        http.post("https://shopping-app-flutter.firebaseio.com/products.json", body: json.encode(productData));
     _products.add(Product(
         title: title,
         description: description,
