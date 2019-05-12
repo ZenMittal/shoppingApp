@@ -6,7 +6,7 @@ import './products.dart';
 import '../models/product.dart';
 import '../models/user.dart';
 
-mixin UserProducts on Model {
+mixin UserProductsModel on Model {
   List<Product> products = [];
   User authedUser;
 

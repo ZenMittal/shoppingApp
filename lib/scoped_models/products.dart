@@ -4,7 +4,7 @@ import '../models/product.dart';
 import '../scoped_models/user_products.dart';
 
 
-mixin ProductsModel on UserProducts {
+mixin ProductsModel on UserProductsModel {
 
   bool _isDisplayFavorite = false;
 
