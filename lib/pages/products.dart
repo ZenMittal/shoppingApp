@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 
-import '../models/product.dart';
+import 'package:scoped_model/scoped_model.dart';
+
+import '../scoped_models/main.dart';
 
 import '../widgets/products/products_builder.dart';
 
 class ProductsPage extends StatelessWidget {
-
   Widget _buildAppBar() {
     return AppBar(
       title: Text("List App"),
       actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.favorite),
-          onPressed: (){},
+        ScopedModelDescendant<MainModel>(
+          builder: (BuildContext context, Widget child, MainModel model) {
+            return IconButton(
+              icon: Icon(model.isDisplayFavorite ? Icons.favorite : Icons.favorite_border),
+              onPressed: () {
+                model.toggleDisplayFavorite();
+              },
+            );
+          },
         )
       ],
     );

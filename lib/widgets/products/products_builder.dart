@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:scoped_model/scoped_model.dart';
 
-import '../../scoped_models/products.dart';
+import '../../models/product.dart';
+import '../../scoped_models/main.dart';
 
 import './product_card.dart';
 
@@ -25,8 +26,8 @@ class ProductsBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScopedModelDescendant<ProductsModel>(builder: (BuildContext context, child, ProductsModel model) {
-      return _buildProductSection(model.products, model.toggleFavorite);
+    return ScopedModelDescendant<MainModel>(builder: (BuildContext context, child, MainModel model) {
+      return _buildProductSection(model.displayedProducts, model.toggleFavorite);
     },);
   }
 }
