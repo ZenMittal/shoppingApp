@@ -44,7 +44,7 @@ class ProductPage extends StatelessWidget {
       },
       child: ScopedModelDescendant<MainModel>(
         builder: (BuildContext context, Widget child, MainModel model) {
-          Product product = model.products[prodIndex];
+          Product product = model.allProducts[prodIndex];
 
           return Scaffold(
             appBar: AppBar(
@@ -66,7 +66,7 @@ class ProductPage extends StatelessWidget {
                 SizedBox(
                   height: 10.0,
                 ),
-                Text(model.products[prodIndex].description),
+                Text(model.allProducts[prodIndex].description),
                 Container(
                   padding: EdgeInsets.all(10.0),
                   child: RaisedButton(

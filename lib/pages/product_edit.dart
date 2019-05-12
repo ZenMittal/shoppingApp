@@ -81,22 +81,18 @@ class _ProductEditPageState extends State<ProductEditPage> {
 
     if (widget.product == null) {
       widget.addProd(
-        Product(
-          title: _formData["title"],
-          description: _formData["description"],
-          price: _formData["price"],
-          image: _formData["image"],
-        ),
+        title: _formData["title"],
+        description: _formData["description"],
+        price: _formData["price"],
+        image: _formData["image"],
       );
     } else {
       widget.updateProd(
         widget.productIndex,
-        Product(
-          title: _formData["title"],
-          description: _formData["description"],
-          price: _formData["price"],
-          image: _formData["image"],
-        ),
+        title: _formData["title"],
+        description: _formData["description"],
+        price: _formData["price"],
+        image: _formData["image"],
       );
     }
     Navigator.pushReplacementNamed(context, "/products");
