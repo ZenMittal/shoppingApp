@@ -16,7 +16,9 @@ mixin UserProductsModel on Model {
       "title": title,
       "description": description,
       "price": price,
-      "image": "https://images.unsplash.com/photo-1557517356-8b497896a6fb"
+      "image": "https://www.w3schools.com/w3css/img_lights.jpg",
+      "userEmail": authedUser.email,
+      "userId": authedUser.id,
     };
     http
         .post(
@@ -92,6 +94,31 @@ mixin ProductsModel on UserProductsModel {
 
     updateProduct(index, isFavorite: newStatus);
     notifyListeners();
+  }
+
+  void fetchProducts() {
+    List<Product> fetchedProductsList = [];
+    http.get("https://shopping-app-flutter.firebaseio.com/products.json").then(
+      (http.Response response) {
+        Map<String, dynamic> productsData = json.decode(response.body);
+        productsData.forEach(
+          (String productId, dynamic productData) {
+            Product product = Product(
+              id: productId,
+              title: productData["title"],
+              description: productData["description"],
+              image: productData["image"],
+              price: productData["price"],
+              userEmail: productData["userEmail"],
+              userId: productData["userId"],
+            );
+            fetchedProductsList.add(product);
+          },
+        );
+        _products = fetchedProductsList;
+        notifyListeners();
+      },
+    );
   }
 
   void deleteProduct(int index) {

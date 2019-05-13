@@ -6,7 +6,22 @@ import '../scoped_models/main.dart';
 
 import '../widgets/products/products_builder.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends StatefulWidget {
+  ProductsPage(this.model);
+  MainModel model;
+  @override
+  State<StatefulWidget> createState() {
+    return _ProductsPageState();
+  }
+}
+
+class _ProductsPageState extends State<ProductsPage> {
+  @override
+  initState() {
+    super.initState();
+    widget.model.fetchProducts();
+  }
+
   Widget _buildAppBar() {
     return AppBar(
       title: Text("List App"),
@@ -14,7 +29,9 @@ class ProductsPage extends StatelessWidget {
         ScopedModelDescendant<MainModel>(
           builder: (BuildContext context, Widget child, MainModel model) {
             return IconButton(
-              icon: Icon(model.isDisplayFavorite ? Icons.favorite : Icons.favorite_border),
+              icon: Icon(model.isDisplayFavorite
+                  ? Icons.favorite
+                  : Icons.favorite_border),
               onPressed: () {
                 model.toggleDisplayFavorite();
               },
