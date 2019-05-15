@@ -13,7 +13,7 @@ mixin UserProductsModel on Model {
   bool _isLoading = false;
 
   Future<bool> addProduct(
-      {String title, String description, double price, String image}) {
+      {String title, String description, double price, String image}) async {
     _isLoading = true;
     notifyListeners();
 
@@ -25,38 +25,36 @@ mixin UserProductsModel on Model {
       "userEmail": authedUser.email,
       "userId": authedUser.id,
     };
-    return http
-        .post(
-      "https://shopping-app-flutter.firebaseio.com/products",
-      body: json.encode(productData),
-    )
-        .then(
-      (http.Response response) {
-        if (response.statusCode != 200 && response.statusCode != 201) {
-          _isLoading = false;
-          notifyListeners();
-          return false;
-        }
-        _products.add(
-          Product(
-            id: json.decode(response.body)["name"],
-            title: title,
-            description: description,
-            price: price,
-            image: image,
-            userEmail: authedUser.email,
-            userId: authedUser.id,
-          ),
-        );
+
+    try {
+      final http.Response response = await http.post(
+        "https://shopping-app-flutter.firebaseio.com/products",
+        body: json.encode(productData),
+      );
+      if (response.statusCode != 200 && response.statusCode != 201) {
         _isLoading = false;
         notifyListeners();
-        return true;
-      },
-    ).catchError((error) {
+        return false;
+      }
+      _products.add(
+        Product(
+          id: json.decode(response.body)["name"],
+          title: title,
+          description: description,
+          price: price,
+          image: image,
+          userEmail: authedUser.email,
+          userId: authedUser.id,
+        ),
+      );
+      _isLoading = false;
+      notifyListeners();
+      return true;
+    } catch (error) {
       _isLoading = false;
       notifyListeners();
       return false;
-    });
+    }
   }
 }
 
