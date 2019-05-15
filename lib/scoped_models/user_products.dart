@@ -97,7 +97,6 @@ mixin ProductsModel on UserProductsModel {
       "description": description,
       "price": price,
       "image": image,
-      "isFavorite": isFavorite,
       "userEmail": _products[index].userEmail,
       "userId": _products[index].userId,
     };
