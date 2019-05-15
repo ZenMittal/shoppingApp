@@ -12,7 +12,7 @@ mixin UserProductsModel on Model {
   User authedUser;
   bool _isLoading = false;
 
-  Future<Null> addProduct(
+  Future<bool> addProduct(
       {String title, String description, double price, String image}) {
     _isLoading = true;
     notifyListeners();
@@ -27,11 +27,16 @@ mixin UserProductsModel on Model {
     };
     return http
         .post(
-      "https://shopping-app-flutter.firebaseio.com/products.json",
+      "https://shopping-app-flutter.firebaseio.com/products",
       body: json.encode(productData),
     )
         .then(
       (http.Response response) {
+        if (response.statusCode != 200 && response.statusCode != 201) {
+          _isLoading = false;
+          notifyListeners();
+          return false;
+        }
         _products.add(
           Product(
             id: json.decode(response.body)["name"],
@@ -45,6 +50,7 @@ mixin UserProductsModel on Model {
         );
         _isLoading = false;
         notifyListeners();
+        return true;
       },
     );
   }
@@ -153,7 +159,7 @@ mixin ProductsModel on UserProductsModel {
           },
         );
         _products = fetchedProductsList;
-        if(doRefresh) {
+        if (doRefresh) {
           _isLoading = false;
         }
         notifyListeners();

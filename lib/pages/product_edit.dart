@@ -95,8 +95,18 @@ class _ProductEditPageState extends State<ProductEditPage> {
         price: _formData["price"],
         image: _formData["image"],
       )
-          .then((_) {
-        Navigator.pushReplacementNamed(context, "/products");
+          .then((bool success) {
+        if (success) {
+          Navigator.pushReplacementNamed(context, "/products");
+        } else {
+          final failedBar = SnackBar(
+            content: Text(
+              "Failed. PLease Try again.",
+              style: TextStyle(color: Colors.red),
+            ),
+          );
+          Scaffold.of(context).showSnackBar(failedBar);
+        }
       });
     } else {
       widget
