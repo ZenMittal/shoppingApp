@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 
 import '../models/product.dart';
+import '../scoped_models/main.dart';
 
 import "./product_edit.dart";
 
-class ProductListPage extends StatelessWidget {
-  ProductListPage(this.products, this.updateProd, this.deleteProd, this.isLoading);
+class ProductListPage extends StatefulWidget {
+  ProductListPage(this.products, this.updateProd, this.deleteProd, this.fetchProducts);
   final List<Product> products;
   final Function updateProd;
   final Function deleteProd;
-  final bool isLoading;
+  final Function fetchProducts;
+
+  @override
+  _ProductListPageState createState() => _ProductListPageState();
+}
+
+class _ProductListPageState extends State<ProductListPage> {
+  @override
+  initState(){
+    super.initState();
+    widget.fetchProducts();
+  }
 
   Widget _buildEditIcon(BuildContext context, index) {
     return IconButton(
@@ -18,10 +30,9 @@ class ProductListPage extends StatelessWidget {
         Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return ProductEditPage(
-            product: products[index],
+            product: widget.products[index],
             productIndex: index,
-            updateProd: updateProd,
-            isLoading: isLoading,
+            updateProd: widget.updateProd,
           );
         }));
       },
@@ -33,7 +44,7 @@ class ProductListPage extends StatelessWidget {
     return ListView.builder(
       itemBuilder: (BuildContext context, index) {
         return Dismissible(
-          key: Key(products[index].title),
+          key: Key(widget.products[index].title),
           background: Container(
             padding: EdgeInsets.only(
                 left: (MediaQuery.of(context).size.width / 1.35)),
@@ -42,17 +53,17 @@ class ProductListPage extends StatelessWidget {
           ),
           onDismissed: (DismissDirection dir) {
             if (dir == DismissDirection.endToStart) {
-              deleteProd(index);
+              widget.deleteProd(index);
             }
           },
           child: Column(
             children: <Widget>[
               ListTile(
                 leading: CircleAvatar(
-                  backgroundImage: NetworkImage(products[index].image),
+                  backgroundImage: NetworkImage(widget.products[index].image),
                 ),
-                title: Text(products[index].title),
-                subtitle: Text("\$${products[index].price}"),
+                title: Text(widget.products[index].title),
+                subtitle: Text("\$${widget.products[index].price}"),
                 trailing: _buildEditIcon(context, index),
               ),
               Divider(),
@@ -60,7 +71,7 @@ class ProductListPage extends StatelessWidget {
           ),
         );
       },
-      itemCount: products.length,
+      itemCount: widget.products.length,
     );
   }
 }

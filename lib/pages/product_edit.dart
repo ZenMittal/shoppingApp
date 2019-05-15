@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import "package:scoped_model/scoped_model.dart";
+
+import '../scoped_models/main.dart';
+
 import '../models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
@@ -8,13 +12,11 @@ class ProductEditPage extends StatefulWidget {
     this.product,
     this.updateProd,
     this.productIndex,
-    this.isLoading,
   });
   final Function addProd;
   final Product product;
   final Function updateProd;
   final int productIndex;
-  final bool isLoading;
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +29,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
     "title": null,
     "description": null,
     "price": null,
-    "image": "lib/assets/img/cover.jpg"
+    "image": "https://www.w3schools.com/w3css/img_lights.jpg"
   };
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -97,25 +99,33 @@ class _ProductEditPageState extends State<ProductEditPage> {
         Navigator.pushReplacementNamed(context, "/products");
       });
     } else {
-      widget.updateProd(
+      widget
+          .updateProd(
         widget.productIndex,
         title: _formData["title"],
         description: _formData["description"],
         price: _formData["price"],
         image: _formData["image"],
-      );
+      )
+          .then((_) {
+        Navigator.pushReplacementNamed(context, "/products");
+      });
     }
   }
 
   Widget _buildSubmitButton() {
-    if (widget.isLoading) {
-      return Center(child: CircularProgressIndicator());
-    } else {
-      return RaisedButton(
-        child: Text("Save Product"),
-        onPressed: () => _submitForm(),
-      );
-    }
+    return ScopedModelDescendant(
+      builder: (BuildContext context, Widget child, MainModel model) {
+        if (model.isLoading) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return RaisedButton(
+            child: Text("Save Product"),
+            onPressed: () => _submitForm(),
+          );
+        }
+      },
+    );
   }
 
   Widget _buildpageContent() {

@@ -67,12 +67,15 @@ mixin ProductsModel on UserProductsModel {
     return List.from(_products);
   }
 
-  void updateProduct(int index,
+  Future<Null> updateProduct(int index,
       {String title,
       String description,
       double price,
       String image,
       bool isFavorite}) {
+    _isLoading = true;
+    notifyListeners();
+
     title = title != null ? title : _products[index].title;
     description =
         description != null ? description : _products[index].description;
@@ -80,18 +83,39 @@ mixin ProductsModel on UserProductsModel {
     image = image != null ? image : _products[index].image;
     isFavorite = isFavorite != null ? isFavorite : _products[index].isFavorite;
 
-    Product product = Product(
-      id: _products[index].id,
-      title: title,
-      description: description,
-      price: price,
-      image: image,
-      isFavorite: isFavorite,
-      userEmail: _products[index].userEmail,
-      userId: _products[index].userId,
+    final Map<String, dynamic> updatedProductData = {
+      "id": _products[index].id,
+      "title": title,
+      "description": description,
+      "price": price,
+      "image": image,
+      "isFavorite": isFavorite,
+      "userEmail": _products[index].userEmail,
+      "userId": _products[index].userId,
+    };
+
+    return http
+        .put(
+            "https://shopping-app-flutter.firebaseio.com/products/${_products[index].id}.json",
+            body: json.encode(updatedProductData))
+        .then(
+      (http.Response response) {
+        Product product = Product(
+          id: _products[index].id,
+          title: title,
+          description: description,
+          price: price,
+          image: image,
+          isFavorite: isFavorite,
+          userEmail: _products[index].userEmail,
+          userId: _products[index].userId,
+        );
+        _products[index] = product;
+
+        _isLoading = false;
+        notifyListeners();
+      },
     );
-    _products[index] = product;
-    notifyListeners();
   }
 
   void toggleFavorite(int index) {
