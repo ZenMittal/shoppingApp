@@ -52,7 +52,11 @@ mixin UserProductsModel on Model {
         notifyListeners();
         return true;
       },
-    );
+    ).catchError((error) {
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    });
   }
 }
 
@@ -73,7 +77,7 @@ mixin ProductsModel on UserProductsModel {
     return List.from(_products);
   }
 
-  Future<Null> updateProduct(int index,
+  Future<bool> updateProduct(int index,
       {String title,
       String description,
       double price,
@@ -106,6 +110,11 @@ mixin ProductsModel on UserProductsModel {
             body: json.encode(updatedProductData))
         .then(
       (http.Response response) {
+        if (response.statusCode != 200 && response.statusCode != 201) {
+          _isLoading = false;
+          notifyListeners();
+          return false;
+        }
         Product product = Product(
           id: _products[index].id,
           title: title,
@@ -120,8 +129,13 @@ mixin ProductsModel on UserProductsModel {
 
         _isLoading = false;
         notifyListeners();
+        return true;
       },
-    );
+    ).catchError((error) {
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    });
   }
 
   void toggleFavorite(int index) {
