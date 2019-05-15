@@ -12,7 +12,7 @@ class ProductsBuilder extends StatelessWidget {
 
   Widget _buildProductSection(products, toggleFav) {
     productCards = Center(
-      child: Text("No Products. Please add some."),
+      child: Text("No Products found. Please add some."),
     );
     if (products.length > 0) {
       productCards = ListView.builder(

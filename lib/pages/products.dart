@@ -8,7 +8,8 @@ import '../widgets/products/products_builder.dart';
 
 class ProductsPage extends StatefulWidget {
   ProductsPage(this.model);
-  MainModel model;
+  final MainModel model;
+
   @override
   State<StatefulWidget> createState() {
     return _ProductsPageState();
@@ -62,12 +63,22 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 
+  Widget _buildProductsBuilder (context) {
+    return ScopedModelDescendant(builder: (BuildContext context, Widget child, MainModel model) {
+      if(model.isLoading) {
+        return Center(child: CircularProgressIndicator());
+      } else {
+        return ProductsBuilder();
+      }
+    },);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
       drawer: _buildDrawer(context),
-      body: ProductsBuilder(),
+      body: _buildProductsBuilder(context),
     );
   }
 }

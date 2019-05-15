@@ -9,6 +9,7 @@ import '../models/user.dart';
 mixin UserProductsModel on Model {
   List<Product> _products = [];
   User authedUser;
+  bool _isLoading = false;
 
   void addProduct(
       {String title, String description, double price, String image}) {
@@ -20,6 +21,8 @@ mixin UserProductsModel on Model {
       "userEmail": authedUser.email,
       "userId": authedUser.id,
     };
+    _isLoading = true;
+    notifyListeners();
     http
         .post(
       "https://shopping-app-flutter.firebaseio.com/products.json",
@@ -38,6 +41,7 @@ mixin UserProductsModel on Model {
             userId: authedUser.id,
           ),
         );
+        _isLoading = false;
         notifyListeners();
       },
     );
@@ -52,6 +56,7 @@ mixin UserModel on UserProductsModel {
 
 mixin ProductsModel on UserProductsModel {
   bool _isDisplayFavorite = false;
+
 
   bool get isDisplayFavorite {
     return _isDisplayFavorite;
@@ -98,6 +103,8 @@ mixin ProductsModel on UserProductsModel {
 
   void fetchProducts() {
     List<Product> fetchedProductsList = [];
+    _isLoading = true;
+    notifyListeners();
     http.get("https://shopping-app-flutter.firebaseio.com/products.json").then(
       (http.Response response) {
         Map<String, dynamic> productsData = json.decode(response.body);
@@ -116,6 +123,7 @@ mixin ProductsModel on UserProductsModel {
           },
         );
         _products = fetchedProductsList;
+        _isLoading = false;
         notifyListeners();
       },
     );
@@ -138,3 +146,9 @@ mixin ProductsModel on UserProductsModel {
     return List.from(_products);
   }
 }
+
+mixin HelperModels on UserProductsModel {
+    bool get isLoading {
+    return _isLoading;
+  }
+} 
