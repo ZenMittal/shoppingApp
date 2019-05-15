@@ -11,7 +11,15 @@ mixin UserProductsModel on Model {
   List<Product> _products = [];
   User authedUser;
   bool _isLoading = false;
+}
 
+mixin UserModel on UserProductsModel {
+  void login({String email, String password}) {
+    authedUser = User(id: "asdawdadfe", email: email, password: password);
+  }
+}
+
+mixin ProductsModel on UserProductsModel {
   Future<bool> addProduct(
       {String title, String description, double price, String image}) async {
     _isLoading = true;
@@ -56,15 +64,7 @@ mixin UserProductsModel on Model {
       return false;
     }
   }
-}
 
-mixin UserModel on UserProductsModel {
-  void login({String email, String password}) {
-    authedUser = User(id: "asdawdadfe", email: email, password: password);
-  }
-}
-
-mixin ProductsModel on UserProductsModel {
   bool _isDisplayFavorite = false;
 
   bool get isDisplayFavorite {
