@@ -155,8 +155,19 @@ mixin ProductsModel on UserProductsModel {
   }
 
   void deleteProduct(int index) {
+    _isLoading = true;
+    final String prodId = _products[index].id;
     _products.removeAt(index);
     notifyListeners();
+    http
+        .delete(
+            "https://shopping-app-flutter.firebaseio.com/products/${prodId}.json")
+        .then(
+      (http.Response response) {
+        _isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 
   void toggleDisplayFavorite() {
