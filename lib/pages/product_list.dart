@@ -5,10 +5,11 @@ import '../models/product.dart';
 import "./product_edit.dart";
 
 class ProductListPage extends StatelessWidget {
-  ProductListPage(this.products, this.updateProd, this.deleteProd);
+  ProductListPage(this.products, this.updateProd, this.deleteProd, this.isLoading);
   final List<Product> products;
   final Function updateProd;
   final Function deleteProd;
+  final bool isLoading;
 
   Widget _buildEditIcon(BuildContext context, index) {
     return IconButton(
@@ -20,6 +21,7 @@ class ProductListPage extends StatelessWidget {
             product: products[index],
             productIndex: index,
             updateProd: updateProd,
+            isLoading: isLoading,
           );
         }));
       },

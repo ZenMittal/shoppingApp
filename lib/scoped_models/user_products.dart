@@ -1,4 +1,5 @@
 import 'dart:convert';
+import "dart:async";
 
 import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
@@ -11,8 +12,11 @@ mixin UserProductsModel on Model {
   User authedUser;
   bool _isLoading = false;
 
-  void addProduct(
+  Future<Null> addProduct(
       {String title, String description, double price, String image}) {
+    _isLoading = true;
+    notifyListeners();
+
     Map productData = {
       "title": title,
       "description": description,
@@ -21,9 +25,7 @@ mixin UserProductsModel on Model {
       "userEmail": authedUser.email,
       "userId": authedUser.id,
     };
-    _isLoading = true;
-    notifyListeners();
-    http
+    return http
         .post(
       "https://shopping-app-flutter.firebaseio.com/products.json",
       body: json.encode(productData),
@@ -56,7 +58,6 @@ mixin UserModel on UserProductsModel {
 
 mixin ProductsModel on UserProductsModel {
   bool _isDisplayFavorite = false;
-
 
   bool get isDisplayFavorite {
     return _isDisplayFavorite;
@@ -147,8 +148,8 @@ mixin ProductsModel on UserProductsModel {
   }
 }
 
-mixin HelperModels on UserProductsModel {
-    bool get isLoading {
+mixin HelperModel on UserProductsModel {
+  bool get isLoading {
     return _isLoading;
   }
-} 
+}

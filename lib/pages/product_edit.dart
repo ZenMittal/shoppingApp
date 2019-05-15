@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import '../models/product.dart';
 
 class ProductEditPage extends StatefulWidget {
-  ProductEditPage(
-      {this.addProd, this.product, this.updateProd, this.productIndex});
+  ProductEditPage({
+    this.addProd,
+    this.product,
+    this.updateProd,
+    this.productIndex,
+    this.isLoading,
+  });
   final Function addProd;
   final Product product;
   final Function updateProd;
   final int productIndex;
+  final bool isLoading;
 
   @override
   State<StatefulWidget> createState() {
@@ -80,12 +86,16 @@ class _ProductEditPageState extends State<ProductEditPage> {
     _formKey.currentState.save();
 
     if (widget.product == null) {
-      widget.addProd(
+      widget
+          .addProd(
         title: _formData["title"],
         description: _formData["description"],
         price: _formData["price"],
         image: _formData["image"],
-      );
+      )
+          .then((_) {
+        Navigator.pushReplacementNamed(context, "/products");
+      });
     } else {
       widget.updateProd(
         widget.productIndex,
@@ -95,15 +105,18 @@ class _ProductEditPageState extends State<ProductEditPage> {
         image: _formData["image"],
       );
     }
-    Navigator.pushReplacementNamed(context, "/products");
   }
 
-  // Widget _buildMainButton() {
-  //   return ScopedModelDescendant<ProductsModel>(
-  //       builder: (BuildContext context, Widget child, ProductsModel model) {
-  //     return;
-  //   });
-  // }
+  Widget _buildSubmitButton() {
+    if (widget.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else {
+      return RaisedButton(
+        child: Text("Save Product"),
+        onPressed: () => _submitForm(),
+      );
+    }
+  }
 
   Widget _buildpageContent() {
     final deviceWidth = MediaQuery.of(context).size.width;
@@ -127,10 +140,7 @@ class _ProductEditPageState extends State<ProductEditPage> {
               SizedBox(
                 height: 10.0,
               ),
-              RaisedButton(
-                child: Text("Save Product"),
-                onPressed: () => _submitForm(),
-              ),
+              _buildSubmitButton(),
             ],
           ),
         ),
