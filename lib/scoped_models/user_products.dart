@@ -126,11 +126,16 @@ mixin ProductsModel on UserProductsModel {
     notifyListeners();
   }
 
-  void fetchProducts() {
+  Future<Null> fetchProducts({doRefresh = true}) {
     List<Product> fetchedProductsList = [];
-    _isLoading = true;
-    notifyListeners();
-    http.get("https://shopping-app-flutter.firebaseio.com/products.json").then(
+    if (doRefresh) {
+      _isLoading = true;
+      notifyListeners();
+    }
+
+    return http
+        .get("https://shopping-app-flutter.firebaseio.com/products.json")
+        .then(
       (http.Response response) {
         Map<String, dynamic> productsData = json.decode(response.body);
         productsData.forEach(
@@ -148,7 +153,9 @@ mixin ProductsModel on UserProductsModel {
           },
         );
         _products = fetchedProductsList;
-        _isLoading = false;
+        if(doRefresh) {
+          _isLoading = false;
+        }
         notifyListeners();
       },
     );

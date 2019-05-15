@@ -63,14 +63,18 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 
-  Widget _buildProductsBuilder (context) {
-    return ScopedModelDescendant(builder: (BuildContext context, Widget child, MainModel model) {
-      if(model.isLoading) {
-        return Center(child: CircularProgressIndicator());
-      } else {
-        return ProductsBuilder();
-      }
-    },);
+  Widget _buildProductsBuilder(context) {
+    return ScopedModelDescendant(
+      builder: (BuildContext context, Widget child, MainModel model) {
+        Widget content;
+        if (model.isLoading) {
+          content = Center(child: CircularProgressIndicator());
+        } else {
+          content = ProductsBuilder();
+        }
+        return RefreshIndicator(child: content, onRefresh: () => model.fetchProducts(doRefresh: false),);
+      },
+    );
   }
 
   @override

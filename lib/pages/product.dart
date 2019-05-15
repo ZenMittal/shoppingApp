@@ -53,7 +53,12 @@ class ProductPage extends StatelessWidget {
             body: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.network(product.image),
+                FadeInImage(
+                  image: NetworkImage(product.image),
+                  height: 400.0,
+                  fit: BoxFit.cover,
+                  placeholder: AssetImage("./lib/assets/img/blurred.jpg"),
+                ),
                 Container(
                   padding: EdgeInsets.all(10.0),
                   child: TitleDefault(product.title),
